@@ -1,0 +1,20 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+<h1>Add event</h1>
+{% if user.is_authenticated %}
+{% if submitted %}
+<h3>New event is successfully created!</h3>
+<a href = "{% url 'all_events' %}" style = "color:black"><h1><button class = "btn btn-outline-dark">Events page</button><h1></a>
+
+{% else %}
+<form action = "" method = "POST">
+    {% csrf_token %}
+    {{form.as_p}}
+    {{form.media}}
+    <input class = "btn btn-secondary" type = "submit" value = "Submit"> 
+
+</form>
+{% endif %}
+{% endif %}
+{% endblock %}

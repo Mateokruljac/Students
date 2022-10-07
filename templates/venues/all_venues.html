@@ -1,0 +1,29 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+<h1>Venues </h1>
+<table class="table table-hover table-dark">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Venue</th>
+        <th scope="col">Address</th>
+        <th scope="col">Owner</th>
+        <th scope="col">Update</th>
+        <th scope="col">Delete</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for venue in venues %}
+      <tr>
+        <th scope="row">{{forloop.counter}}</th>
+        <td>{{venue.venue_name}}</td>
+        <td>{{venue.venue_address}}</td>
+        <td>{{venue.venue_owner}}</td>
+        <td><a href = "{% url  'update_venue' venue.id %}" class = "btn btn-outline-secondary" style = "color:white">Update</a></td>
+        <td><a href = "{% url  'delete_venue' venue.id %}" class = "btn btn-outline-secondary" style = "color:white">Delete</a></td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

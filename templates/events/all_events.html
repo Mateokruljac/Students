@@ -1,0 +1,50 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+{% if user.is_authenticated %}
+<h1>Events</h1>
+<p> Events you may be interested in - <a href = "{% url 'matching' %}">click here</a></p>
+<hr>
+<br>
+
+   {% for event in events %}
+   <div class="card">
+    <h5 class="card-header bg-dark" style = "color:white">
+     
+      {{forloop.counter}}. {{event.event_title}}
+      
+</h5>
+    <div class = "row">
+      <div class = "col-sm-9">
+    <div class="card-body">
+      <h5 class="card-title"><b>Venue:</b> {{event.event_venue}}</h5>
+      <h5 class="card-title"><b>Start at:</b> {{event.event_started}}</h5>
+      {% if event.event_ended%}
+      <h5 class="card-title"><b>End at:</b> {{event.event_ended}}</h5>
+      {% endif %}
+      <h5 class="card-title"><b>Date:</b> {{event.event_date}}</h5>
+      <h5 class="card-title"><b>Description:</b> {{event.event_description|safe|slice:":200"}}...</h5>
+      <h5 class="card-title"><b>Manager:</b> {{event.event_manager}}</h5>
+       
+       {% if event.event_email%}
+      <h5 class="card-title"><b>Email:</b> {{event.event_email}}</h5>
+       {% endif %}
+      {% if event.event_website %}
+      <h5 class="card-title"><b>Web:</b> {{event.event_website}}</h5>
+       {% endif %}
+      </div>
+    </div>
+      <div class ="col-sm-3">
+        <br><br><br><br>
+      <a href="{% url 'detail' event.id %}" class="btn btn-outline-secondary">for more detail and booking!</a>
+    </div>
+  </div>
+
+   {% endfor %}
+   </div>
+  </div>
+  {% else %}
+  <center><h1><b>If you want to see events, you must be logged in!</b></h1></center>
+  {%endif %}
+
+{% endblock %}

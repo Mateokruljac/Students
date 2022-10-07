@@ -1,0 +1,62 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+<div class = "row">
+    <div class = "col-sm-9">
+    <h1>Events you may be interesed in:</h1>
+    </div>
+    <div class = "col-sm-3">
+    <a href = "{% url 'all_events' %}" style = "color:black"><h1><button class = "btn btn-outline-dark">Events page</button><h1></a>
+    </div>
+    </div>
+<hr>
+<br>
+{% if messages %}
+   {% for message in messages %}
+        <h1><b>  {{message}} </b></1h>
+    {% endfor %}
+{% else %}
+{% if events %}
+   {% for event in events %}
+   <div class="card">
+    <h5 class="card-header bg-dark" style = "color:white">
+     
+      {{forloop.counter}}. {{event.event_title}}
+      
+</h5>
+    <div class = "row">
+      <div class = "col-sm-9">
+    <div class="card-body">
+      <h5 class="card-title"><b>Venue:</b> {{event.event_venue}}</h5>
+      <h5 class="card-title"><b>Start at:</b> {{event.event_started}}</h5>
+      {% if event.event_ended%}
+      <h5 class="card-title"><b>End at:</b> {{event.event_ended}}</h5>
+      {% endif %}
+      <h5 class="card-title"><b>Date:</b> {{event.event_date}}</h5>
+      <h5 class="card-title"><b>Description:</b> {{event.event_description|safe|slice:":75"}}...</h5>
+      <h5 class="card-title"><b>Manager:</b> {{event.event_manager}}</h5>
+       
+       {% if event.event_email%}
+      <h5 class="card-title"><b>Email:</b> {{event.event_email}}</h5>
+       {% endif %}
+      {% if event.event_website %}
+      <h5 class="card-title"><b>Web:</b> {{event.event_website}}</h5>
+       {% endif %}
+      </div>
+    </div>
+    <div class ="col-sm-3">
+        <br><br><br><br>
+      <a href="{% url 'detail' event.id %}" class="btn btn-outline-secondary">for more detail and booking!</a>
+    </div>
+ 
+  
+
+</div>
+</div>
+{% endfor %}
+{% else %}
+<h1><b>Unfortunately, there are no events that match your interests. But you can look at the others</b></h1>
+{% endif %}
+{% endif %}
+
+{% endblock %}

@@ -1,0 +1,65 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block content %}
+
+  <h3>{{ user.username|title}}`s Profile Page</h3>
+<div class="card mb-3 bg-light" style="max-width: 540px;">
+    <div class="row no-gutters">
+      <div class="col-md-4">
+        {% if request.user.student.student_image %} 
+        <img  src="{{ request.user.student.student_image.url }}" 
+          class="card-img">
+         {% else %} 
+        <img  src="{% static 'events/img/user.png' %}" 
+          class= "card-img" >
+          {% endif %}
+      </div>
+      <div class="col-md-8">
+        <div class="card-body">
+          <h5 class="card-title">Name: {{ user.first_name }}</h5>
+          <h5 class="card-title">Surname: {{ user.last_name }}</h5>
+          <div class="small text-muted">
+            <p><b>Interested in:</b>
+              {%for tag in user.student.student_tag.all %}
+              {{tag}}              
+              {% endfor %}
+            </p>
+
+            <p><b>Email:</b>{{user.email}}</p>
+            
+            {% if student.student_linkedin %}
+            <p><b>Linkedin :</b>{{student.student_linkedin}}</p>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+    <p><b>Bio:</b>{{request.user.student.student_bio|safe}}</p>
+  </div> 
+
+<h3>Booking events</h3>
+{% if events %}
+<table class="table table-hover table-dark">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Event</th>
+      <th scope="col">Venue</th>
+      <th scope="col">Date</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for event in events %}
+    <tr>
+      <th scope="row">{{forloop.counter}}</th>
+      <td>{{event.event_title}}</td>
+      <td>{{event.event_venue}}</td>
+      <td>{{event.event_date}}</td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% else %}
+You have not booked any events. If you want, <a/ href = "{% url 'all_events' %}">click here</a>
+{% endif %}
+{% endblock %}

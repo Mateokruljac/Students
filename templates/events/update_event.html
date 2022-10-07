@@ -1,0 +1,25 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+<div class = "row">
+    <div class = "col-sm-9">
+    <h1>Update events: {{event.event_title}}</h1>
+    </div>
+    <div class = "col-sm-3">
+    <a href = "{% url 'all_events' %}" style = "color:black"><h1><button class = "btn btn-outline-dark">Events page</button><h1></a>
+    </div>
+    </div>
+{% if user.is_authenticated %}
+{% if updated %}
+<h3>{{event.event_title}} is successfully updated!</h3>
+{% else %}
+<form action = "" method = "POST">
+    {% csrf_token %}
+    {{form.as_p}}
+    {{form.media}}
+    <input class = "btn btn-secondary" type = "submit" value = "Save"> 
+</form>
+
+{% endif %}
+{% endif %}
+{% endblock %}

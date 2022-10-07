@@ -1,0 +1,18 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+<h1>Add venue</h1>
+{% if user.is_authenticated %}
+{% if submitted %}
+<h3>New venue is successfully created!</h3>
+{% else %}
+<form action = "" method = "POST">
+    {% csrf_token %}
+    {{form.as_p}}
+
+    <input class = "btn btn-secondary" type = "submit" value = "Submit"> 
+</form>
+
+{% endif %}
+{% endif %}
+{% endblock %}

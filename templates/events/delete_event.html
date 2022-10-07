@@ -1,0 +1,13 @@
+{% extends 'core/base.html '%}
+
+{% block content %}
+<h2>Delete: {{event.event_title}}</h2>
+<div class ="form-group"> 
+<form method ="POST">
+    {% csrf_token %}
+    <strong>Are you sure?</strong><br>
+    <button class="btn btn-dark">DELETE</button>
+    <a href = "{% url 'all_events' %}" style = "color:black"><h1><button class = "btn btn-outline-dark">Events page</button><h1></a
+</form>
+</div>
+{% endblock %}

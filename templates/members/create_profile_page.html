@@ -1,0 +1,34 @@
+{% extends 'core/base.html' %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <title>{% block title %}Create new profile {% endblock %} </title>
+</head>
+<body>
+    {% block content %}
+    {% if user.is_authenticated %}
+    <h1>Create Profile Page</h1><hr><br><br>
+    {% if successfully %}
+   <h1>Dear {{request.user.username|title}}, your profile is successfully created!</h1>
+   <a href = "{% url 'all_events' %}" style = "color:black"><h1><button class = "btn btn-outline-dark">Events page</button><h1></a>
+   
+    {%else%}
+    {% if messages %}
+      {% for message in messages %}
+            <b style = "color: red"> {{message}} </b>
+            {% endfor %}
+    {% else %}
+    <form method ="POST" enctype = "multipart/form-data" >
+        {% csrf_token %}
+          {{ form.as_p }}
+          <input class = "btn btn-secondary" type = "submit" value = "Submit">
+        </form>
+        {% endif %}
+    {%endif%}
+
+    {% endif %}
+    {% endblock %}
+</body>
+</html>

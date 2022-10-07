@@ -1,0 +1,90 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+<div class = "row">
+<div class = "col-sm-9">
+<h1>{{event.event_title}}</h1>
+</div>
+<div class = "col-sm-3">
+<a href = "{% url 'all_events' %}" style = "color:black"><h1><button class = "btn btn-outline-dark">Events page</button><h1></a>
+</div>
+</div>
+
+   <div class="card">
+     <h5 class="card-header bg-dark" style = "color:white">
+      <div class = "row">
+      <div class = "col-sm-9">
+      {{event.event_title}}
+    </div>
+    <div class ="col-sm-3">
+      <p>
+        <a class ="btn btn-outline-secondary" style = "color:white" href ="{% url 'update' event.id%}">Update</a>
+
+        <a class ="btn btn-outline-secondary" style = "color:white" href ="{% url 'delete_event' event.id %}">Delete</a>
+      </p>
+    </div>  
+  
+  </div>
+      </h5> 
+    <div class="card-body">
+      <div class = "row">
+        <div class = "col-sm-9">
+      <h5 class="card-title"><b>Day(s) till:</b> {{event.days_till}} days</h5>
+      <h5 class="card-title"><b>Venue:</b> {{event.event_venue}}</h5>
+      <h5 class="card-title"><b>Start at:</b> {{event.event_started}}</h5>
+      {% if event.event_ended%}
+      <h5 class="card-title"><b>End at:</b> {{event.event_ended}}</h5>
+      {% endif %}
+      <h5 class="card-title"><b>Date:</b> {{event.event_date}}</h5>
+      <h5 class="card-title"><b>Tags:</b> 
+        {% if event.event_tag %}
+                 {% for tag in event.event_tag.all %}
+                           #{{ tag }}
+                      {%     endfor   %}
+        {% endif %}
+      </h5>
+      <h5 class="card-title"><b>Description:</b> {{event.event_description|safe}}</h5>
+      <h5 class="card-title"><b>Manager:</b> {{event.event_manager}}</h5>
+      {% if event.event_booking %}
+      <h5 class="card-title"><b>Attendee(s):<br></b>
+                    {% for books in event.event_booking.all %}         
+                         {% if forloop.counter <= 5 %}  
+                          {{books}} <br>
+                         {% else %}
+                         ...
+                         {% endif %}
+
+                    {% endfor %}
+       </h5>
+       {% endif %}
+       {% if event.event_email%}
+      <h5 class="card-title"><b>Email:</b> {{event.event_email}}</h5>
+       {% endif %}
+      {% if event.event_website %}
+      <h5 class="card-title"><b>Web:</b> {{event.event_website}}</h5>
+       {% endif %}
+      </div>
+      <div class = "col-sm-3">
+        {% if request.user in event.event_booking.all %}
+        <form action ="{% url 'booking' event.id %}" method = "POST">
+                         {% csrf_token %}
+     <button type = "submit"  name ="booking" value="{{ event.id }}"
+     class = "btn btn-danger">Cancel booking</button><hr><p style ="font-size: small;">
+        {{ event.total_capacitety}} remaining seats.</p>
+    </form>
+      {% else %}
+      <form  action = "{% url 'booking' event.id %}"  method = "POST">
+        {% csrf_token %}
+    <button type = "submit"  name ="booking" value="{{ event.id }}"
+     class = "btn btn-dark">Booking</button><hr><p style ="font-size: small;">
+      {{ event.total_capacitety }}   remaining seats.</p>
+    </form>
+
+      {% endif %}
+    </div>
+  </div>
+  </div>
+  </div>
+
+
+{% endblock %}
